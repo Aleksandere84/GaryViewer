@@ -21,6 +21,7 @@ ID2D1HwndRenderTarget*          g_pRenderTarget = nullptr;
 ID2D1Bitmap*                    g_pD2DBitmap = nullptr;
 Gdiplus::Image*                 g_pGdiImage = nullptr;
 bool                            g_bUseDirect2D = true;
+bool                            g_bAlwaysOnTop = false;
 int                             g_nNumber = 1;
 
 // Forward declarations
@@ -207,6 +208,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             InvalidateRect(hwnd, nullptr, TRUE);
             break;
         }
+        case IDM_MODE_ALWAYS_ON_TOP:
+            g_bAlwaysOnTop = !g_bAlwaysOnTop;
+            CheckMenuItem(GetMenu(hwnd), IDM_MODE_ALWAYS_ON_TOP, g_bAlwaysOnTop ? MF_CHECKED : MF_UNCHECKED);
+            SetWindowPos(hwnd, g_bAlwaysOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+            break;
         case IDM_ABOUT:
         {
             DialogBoxW(GetModuleHandle(nullptr),
