@@ -69,7 +69,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int nCmdShow)
 
 
     SetMenu(g_hWnd,LoadMenuW(hInstance, MAKEINTRESOURCE(IDR_MAINMENU)));
-    
+
+    // load random gary image on startup
+    g_nNumber = 1 + (rand() % 640);
+    LoadCatImage();
+    InvalidateRect(NULL, nullptr, TRUE);
 
     ShowWindow(g_hWnd, nCmdShow);
     MSG msg;
